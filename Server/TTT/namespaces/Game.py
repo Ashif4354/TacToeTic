@@ -8,6 +8,20 @@ class Game(AsyncNamespace):
         await self.emit('connected', {'success': True})
         
     async def on_disconnect(self, sid) -> None:
+        if room_id := Room.users.get(sid):
+            Room.users.pop(sid)
+            
+            if room := Room.rooms.get(room_id):
+                await self.leave_room(sid, room_id)
+                await room.remove_player(sid)
+                
+                await self.emit('opponent_left',
+                          room=room_id,
+                          skip_sid=sid,
+                        )
+            if await room.is_empty(): # type: ignore
+                Room.rooms.pop(room_id)
+                
         print('Client disconnected')
         
     async def on_join_room(self, sid, data: dict) -> None:
@@ -18,6 +32,7 @@ class Game(AsyncNamespace):
         if room := Room.rooms.get(room_id):
             if len(await room.players) < 2:
                 await room.add_player(player)
+                Room.users[sid] = room_id
                 
                 await self.emit('player_joined', 
                           {
@@ -29,6 +44,8 @@ class Game(AsyncNamespace):
                 await self.emit('joined_room', {
                     'players': [await player_.name for player_ in await room.players if player_ != player],
                 }, to=sid)
+                
+                await room.reset_board()
                 
                 if await room.is_full():
                     players: list[Player] = await room.players
@@ -73,14 +90,14 @@ class Game(AsyncNamespace):
     async def on_move(self, sid: str, data: dict) -> None:
         room_id: str = data['room_id']
         position: int = data['position']
-        player: str = data['player']
-        
+        mark: str = data['mark']    
         
         
         if room := Room.rooms.get(room_id):
             
             await self.emit('move_made', {'position': data['position']}, room=room_id, skip_sid=sid)
-            await room.make_move(player, position)
+            await room.make_move(sid, position, mark)
+            
             
             
     async def on_play_again(self, sid: str, data: dict) -> None:

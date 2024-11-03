@@ -155,6 +155,10 @@ table {
     color: #ff5a5f;
 }
 
+.draw {
+    color: #6e6e6e;
+}
+
 .play-again-btn {
     background-color: #4a90e2;
 }

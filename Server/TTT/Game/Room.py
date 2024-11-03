@@ -1,4 +1,5 @@
 from random import choices
+import re
 from string import ascii_uppercase
 
 from socketio import AsyncServer
@@ -8,6 +9,7 @@ from .Player import Player
 class Room():
     
     rooms: dict[str, 'Room'] = {}
+    users = {}
     
     def __init__(self, sio) -> None:
         self.sio: AsyncServer = sio
@@ -55,24 +57,37 @@ class Room():
             if await player.sid == sid:
                 self.__players.remove(player)
                 break
+    async def reset_board(self) -> None:
+        self.__board = ['' for _ in range(9)]
         
     async def is_full(self) -> bool:
         return len(self.__players) == 2    
+    
+    async def is_empty(self) -> bool:
+        return len(self.__players) == 0
         
-    async def make_move(self, player: str, position: int) -> None:
-        self.__board[position] = player
+    async def make_move(self, sid: str, position: int, mark: str) -> None:
+        self.__board[position] = mark
         if winner := await self.check_winner():
-            if winner == self.__x_player:
-                self.__x_score += 1
-            else:
-                self.__o_score += 1
+            if winner == ' draw ':
+                await self.sio.emit('game_over', 
+                                {
+                                    'winner': '',
+                                    'draw': True,
+                                }, 
+                                room=self.__room_id, 
+                                namespace='/game')
+                return
                 
             await self.sio.emit('game_over', 
                                 {
                                     'winner': winner,
+                                    'draw': False,
                                 }, 
                                 room=self.__room_id, 
                                 namespace='/game')
+            
+        
         
     async def check_winner(self) -> str:
         for i in range(0, 9, 3):
@@ -85,6 +100,10 @@ class Room():
             return self.__board[0]
         if self.__board[2] == self.__board[4] == self.__board[6]:
             return self.__board[2]
+        
+        if '' not in self.__board:
+            return ' draw '
+        
         return ''
     
     

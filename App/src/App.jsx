@@ -18,13 +18,14 @@ const App = () => {
     const [myTurn, setMyTurn] = useState(false);
     const [myScore, setMyScore] = useState(0);
     const [opponentScore, setOpponentScore] = useState(0);
+    const [draw, setDraw] = useState(false);
     const mySymbol = useRef('X');
 
     const onCellClick = (index) => {
         if (myTurn && values[index] === '') {
             setValues((prevValues) => prevValues.map((value, i) => i === index ? mySymbol.current : value));
 
-            gameSocket.emit('move', { room_id: roomID, position: index, player: name });
+            gameSocket.emit('move', { room_id: roomID, position: index, mark: mySymbol.current });
             setMyTurn(false);
         }
 
@@ -87,6 +88,11 @@ const App = () => {
         setOpponentJoined(false);
         setOpponent('');
         setValues(Array(9).fill(''));
+        setDraw(false);
+        setResults(false);
+        setMyTurn(false);
+        setMyScore(0);
+        setOpponentScore(0);
     }
 
     const onPlayAgain = () => {
@@ -109,6 +115,12 @@ const App = () => {
         socket.on('player_joined', (data) => {
             setOpponentJoined(true);
             setOpponent(data.name);
+            setResults(false);
+            setValues(Array(9).fill(''));
+            setDraw(false);
+            setMyTurn(false);
+            setMyScore(0);
+            setOpponentScore(0);
         })
 
         socket.on('no_room', () => {
@@ -137,9 +149,8 @@ const App = () => {
             setMyTurn(true);
         })
 
-        
-
         socket.on('reset', () => {
+            setDraw(false);
             setResults(false);
             setValues(Array(9).fill(''));
 
@@ -163,7 +174,13 @@ const App = () => {
         if (inRoom) {
             gameSocket.on('game_over', (data) => {
                 setResults(true);
-                if (data.winner === name) {
+                if (data.draw) {
+                    setDraw(true);
+                    setMyScore(prevState => prevState + 0.5);
+                    setOpponentScore(prevState => prevState + 0.5);
+                    return
+                }
+                if (data.winner === mySymbol.current) {
                     setWon(true);
                     setMyScore(prevState => prevState + 1);
                 } else {
@@ -171,12 +188,12 @@ const App = () => {
                     setOpponentScore(prevState => prevState + 1);
                 }
             })
-            
+
         }
     }, [inRoom])
 
     useEffect(() => {
-        checkWinner(values);
+        // checkWinner(values);
     }, [values])
 
 
@@ -356,10 +373,14 @@ const App = () => {
                                     results && (
                                         <div className='results'>
                                             {
-                                                won ? (
-                                                    <h3 className='result-text won'>You Won!</h3>
+                                                draw ? (
+                                                    <h3 className='result-text draw'>Draw!</h3>
                                                 ) : (
-                                                    <h3 className='result-text lost'>You Lost!</h3>
+                                                    won ? (
+                                                        <h3 className='result-text won'>You Won!</h3>
+                                                    ) : (
+                                                        <h3 className='result-text lost'>You Lost!</h3>
+                                                    )
                                                 )
                                             }
                                             <button
