@@ -14,7 +14,14 @@ CORS(app)
 async def before_request() -> None:
     pass
     
-    
+@app.route('/', methods=['GET'])
+def index() -> Response:
+    return jsonify({
+        'success': True,
+        'message': 'Tac Toe Tic Server Running'
+    })
+
+
 @app.route('/create_room', methods=['POST'])
 async def create_room() -> Response:
     new_room: Room = Room(sio)
