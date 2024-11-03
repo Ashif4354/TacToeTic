@@ -21,6 +21,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./App
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,16 +34,14 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-        working-directory: ./App # Set the working directory to 'App'
       - name: Build
         run: npm run build
-        working-directory: ./App # Set the working directory to 'App'
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './App/dist' # Change path to reflect new structure
+          path: './dist' # Change path to reflect new structure
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
