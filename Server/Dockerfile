@@ -16,5 +16,5 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["hypercorn", "main:app", "--bind", "0.0.0.0:5000", "--workers", "1"]
+CMD ["hypercorn", "main:app", "--bind", "0.0.0.0:10000", "--workers", "1"]
 
