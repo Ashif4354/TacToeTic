@@ -1,0 +1,164 @@
+/* App.css */
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.main-container {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.heading-container h1 {
+    color: #4a90e2;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.data-container {
+    margin-bottom: 20px;
+}
+
+.in-room-container {
+    margin-bottom: 15px;
+}
+
+.not-in-room-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.join-room-container {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    align-items: center;
+}
+
+.name-input, .room-id-input {
+    width: 80%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #d1d9e6;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+}
+
+.btns {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btns:hover {
+    background-color: #357ab7;
+}
+
+.btns:disabled {
+    background-color: #d1d9e6;
+    cursor: not-allowed;
+}
+
+.create-btn {
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.join-btn {
+    width: 80%;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+.leave-btn {
+    background-color: #ff5a5f;
+}
+
+.leave-btn:hover {
+    background-color: #d94448;
+}
+
+.opponent-detail {
+    margin-top: 10px;
+}
+
+.error-text {
+    color: #ff5a5f;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.game-container {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+.cell {
+    height: 100px;
+    width:100px;
+}
+
+.cell-btn {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #eaf1fb;
+    font-size: 24px;
+    color: #4a90e2;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cell-btn:hover {
+    background-color: #d1e0f3;
+}
+
+.results-container {
+    margin-top: 20px;
+}
+
+.result-text {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.won {
+    color: #4caf50;
+}
+
+.lost {
+    color: #ff5a5f;
+}
+
+.play-again-btn {
+    background-color: #4a90e2;
+}
+
+.play-again-btn:hover {
+    background-color: #357ab7;
+}

@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "tic tac toe"
+version = "0.1.0"
+description = ""
+authors = ["DarkGlance <darkglance.developer@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.13"
+flask = {extras = ["async"], version = "^3.0.3"}
+flask-cors = "^5.0.0"
+hypercorn = "^0.17.3"
+python-socketio = "^5.11.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
