@@ -10,7 +10,7 @@ Tac Toe Tic is a simple, online multiplayer Tic-Tac-Toe game. Play with a friend
 
 ## How to Play
 
-1. Open Tactoetic in your web browser.
+1. Open [Tac Toe Tic]() in your web browser.
 2. Create a new game room or join an existing one.
 3. Take turns placing your mark (X or O) on the grid.
 4. First player to align three in a row wins!
