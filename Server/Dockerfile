@@ -14,7 +14,7 @@ RUN poetry install
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 10000
 
 CMD ["hypercorn", "main:app", "--bind", "0.0.0.0:10000", "--workers", "1"]
 
