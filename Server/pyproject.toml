@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "tic tac toe"
+name = "tactoetic"
 version = "0.1.0"
-description = ""
+description = "A Simple Tic-Tac-Toe Game"
 authors = ["DarkGlance <darkglance.developer@gmail.com>"]
 license = "MIT"
 readme = "README.md"

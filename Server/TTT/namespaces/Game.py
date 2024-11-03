@@ -29,18 +29,27 @@ class Game(AsyncNamespace):
                 await self.emit('joined_room', {
                     'players': [await player_.name for player_ in await room.players if player_ != player],
                 }, to=sid)
+                
                 if await room.is_full():
                     players: list[Player] = await room.players
                     await room.set_x_player(players[0])
                     await room.set_o_player(players[1])
                     
+                    print(await players[0].sid)
                     await self.emit('game_start', 
-                          {
-                              'X': await players[0].name,
-                              'O': await players[1].name,
-                          },
-                          room=room_id,
-                        )                   
+                            {
+                                'role': 'X'
+                            },
+                            to = await players[0].sid,                          
+                        ) 
+                             
+                    print(await players[1].sid)
+                    await self.emit('game_start',
+                            {
+                                'role': 'O'
+                            },
+                            to = await players[1].sid,
+                            )         
                 
             else:
                 await self.emit('room_full', to=sid)

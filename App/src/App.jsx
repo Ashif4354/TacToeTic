@@ -124,6 +124,36 @@ const App = () => {
             setOpponent('');
         })
 
+        socket.on('game_start', (data) => {
+            console.log(data)
+            mySymbol.current = data.role
+            setMySymbol_(data.role);
+            setMyTurn(data.role === 'X');
+        })
+
+        socket.on('move_made', (data) => {
+            setValues((prevValues) => prevValues.map((value, i) => i === data.position ? (mySymbol.current === 'X' ? 'O' : 'X') : value));
+
+            setMyTurn(true);
+        })
+
+        
+
+        socket.on('reset', () => {
+            setResults(false);
+            setValues(Array(9).fill(''));
+
+            if (mySymbol.current === 'X') {
+                mySymbol.current = 'O';
+                setMySymbol_('O');
+                setMyTurn(false);
+            } else {
+                mySymbol.current = 'X';
+                setMySymbol_('X');
+                setMyTurn(true);
+            }
+        })
+
         return () => {
             socket.disconnect();
         }
@@ -131,24 +161,6 @@ const App = () => {
 
     useEffect(() => {
         if (inRoom) {
-            gameSocket.on('game_start', (data) => {
-                if (data.X == name) {
-                    mySymbol.current = 'X';
-                    setMySymbol_('X');
-                    setMyTurn(true);
-                } else {
-                    mySymbol.current = 'O';
-                    setMySymbol_('O');
-                    setMyTurn(false);
-                }
-            })
-
-            gameSocket.on('move_made', (data) => {
-                setValues((prevValues) => prevValues.map((value, i) => i === data.position ? (mySymbol.current === 'X' ? 'O' : 'X') : value));
-
-                setMyTurn(true);
-            })
-
             gameSocket.on('game_over', (data) => {
                 setResults(true);
                 if (data.winner === name) {
@@ -159,21 +171,7 @@ const App = () => {
                     setOpponentScore(prevState => prevState + 1);
                 }
             })
-
-            gameSocket.on('reset', () => {
-                setResults(false);
-                setValues(Array(9).fill(''));
-
-                if (mySymbol.current === 'X') {
-                    mySymbol.current = 'O';
-                    setMySymbol_('O');
-                    setMyTurn(false);
-                } else {
-                    mySymbol.current = 'X';
-                    setMySymbol_('X');
-                    setMyTurn(true);
-                }
-            })
+            
         }
     }, [inRoom])
 
