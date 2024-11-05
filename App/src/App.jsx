@@ -220,15 +220,15 @@ const App = () => {
                                         onClick={() => onJoinRoom(roomID)}
                                     >Join</button>
                                 </div>
-                                <span className='or-text'>- or -</span>
+                                    <span className='or-text'>- or -</span>
 
-                                <button
-                                    disabled={!name}
-                                    className='btns create-btn'
-                                    onClick={onCreateRoom}>Create Room
-                                </button>
+                                    <button
+                                        disabled={!name}
+                                        className='btns create-btn'
+                                        onClick={onCreateRoom}>Create Room
+                                    </button>
 
-                                <span className='error-text'>{errorTextLobby}</span>
+                                    <span className='error-text'>{errorTextLobby}</span>
 
                             </div>
                         ) : (

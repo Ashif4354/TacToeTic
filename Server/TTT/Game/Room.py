@@ -1,15 +1,14 @@
 from random import choices
-import re
 from string import ascii_uppercase
 
 from socketio import AsyncServer
 
 from .Player import Player
 
-class Room():
+class Room:
     
     rooms: dict[str, 'Room'] = {}
-    users = {}
+    users: dict[str, str] = {}
     
     def __init__(self, sio) -> None:
         self.sio: AsyncServer = sio
