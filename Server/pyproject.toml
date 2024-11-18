@@ -15,6 +15,9 @@ hypercorn = "^0.17.3"
 python-socketio = "^5.11.4"
 
 
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
