@@ -1,7 +1,7 @@
 try:
     from dotenv import load_dotenv
     load_dotenv()
-except:
+except ImportError:
     pass
 
 from socketio import AsyncServer
@@ -13,7 +13,8 @@ sio = AsyncServer(
     async_mode='asgi', 
     cors_allowed_origins=[
         'https://ttt-dg.netlify.app',
-        'https://admin.socket.io'
+        'https://admin.socket.io',
+        'https://tactoetic.darkglance.in/'
     ],
     # cors_allowed_origins='*', # for development
 )
