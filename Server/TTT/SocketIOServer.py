@@ -14,7 +14,7 @@ sio = AsyncServer(
     cors_allowed_origins=[
         'https://ttt-dg.netlify.app',
         'https://admin.socket.io',
-        'https://tactoetic.darkglance.in/'
+        'https://tactoetic.darkglance.in'
     ],
     # cors_allowed_origins='*', # for development
 )
